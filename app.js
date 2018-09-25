@@ -1,13 +1,30 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-const dom = new JSDOM(`<img src="./pictures/eggs2.png" id="egg-detection-image" />`)
+const dom = new JSDOM('<img src="./pictures/psmove.png" id="egg-detection-image" />')
 
 // console.log(dom.window)
 
 window = dom.window
 
+// ###### VERSION B ##########
 const tracking = require('./node_modules/tracking/build/tracking')
+
+window.onload = function(){
+  console.log('window loaded')
+  var tracker = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
+  tracker.on('track', function(event) {
+    event.data.forEach(function(rect) {
+      window.plot(rect.x, rect.y, rect.width, rect.height, rect.color);
+    });
+  });
+  tracking.track('#egg-detection-image', tracker);
+}
+
+
+
+// ######### VERSION A ########
+// const tracking = require('./node_modules/tracking/build/tracking')
 
 // {/* <script src="./node_modules/tracking/build/tracking-min.js"></script> */}
 
