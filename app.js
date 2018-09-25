@@ -5,20 +5,25 @@ const dom = new JSDOM('<img src="./pictures/psmove.png" id="egg-detection-image"
 
 // console.log(dom.window)
 
-window = dom.window
+const window = dom.window
+global.window = window
+
 
 // ###### VERSION B ##########
-const tracking = require('./node_modules/tracking/build/tracking')
+require('./node_modules/tracking/src/tracking')
 
 window.onload = function(){
   console.log('window loaded')
+  var eggCounter = 0
   var tracker = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
   tracker.on('track', function(event) {
     event.data.forEach(function(rect) {
-      window.plot(rect.x, rect.y, rect.width, rect.height, rect.color);
+      eggCounter++
+      // window.plot(rect.x, rect.y, rect.width, rect.height, rect.color);
     });
   });
   tracking.track('#egg-detection-image', tracker);
+  return eggCounter
 }
 
 
